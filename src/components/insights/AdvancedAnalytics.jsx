@@ -81,8 +81,8 @@ export const AdvancedAnalytics = () => {
   return (
     <div className="space-y-8">
       {/* Top Transactions */}
-      <div className="card p-6 fade-in">
-        <h3 className="text-lg font-semibold mb-4 dark:text-white flex items-center gap-2">
+      <div className="panel-card p-6 fade-in">
+        <h3 className="mb-4 flex items-center gap-2 text-2xl font-bold text-slate-900 dark:text-white">
           <TrendingUp size={20} className="text-blue-600" />
           Top 5 Transactions
         </h3>
@@ -91,7 +91,7 @@ export const AdvancedAnalytics = () => {
             topTransactions.map((t, idx) => (
               <div
                 key={t.id}
-                className="flex items-center justify-between p-3 bg-gray-50 dark:bg-slate-700 rounded-lg"
+                className="flex items-center justify-between rounded-2xl bg-slate-50/80 p-3 dark:bg-slate-800/70"
               >
                 <div className="flex-1">
                   <p className="font-medium text-gray-900 dark:text-white">
@@ -119,8 +119,11 @@ export const AdvancedAnalytics = () => {
       </div>
 
       {/* Monthly Summary */}
-      <div className="card p-6 fade-in" style={{ animationDelay: "0.1s" }}>
-        <h3 className="text-lg font-semibold mb-4 dark:text-white flex items-center gap-2">
+      <div
+        className="panel-card p-6 fade-in"
+        style={{ animationDelay: "0.1s" }}
+      >
+        <h3 className="mb-4 flex items-center gap-2 text-2xl font-bold text-slate-900 dark:text-white">
           <Calendar size={20} className="text-purple-600" />
           Monthly Summary
         </h3>
@@ -129,7 +132,7 @@ export const AdvancedAnalytics = () => {
             monthlyData.map((month) => (
               <div
                 key={month.month}
-                className="p-3 bg-gray-50 dark:bg-slate-700 rounded-lg"
+                className="rounded-2xl bg-slate-50/80 p-3 dark:bg-slate-800/70"
               >
                 <div className="flex items-center justify-between mb-2">
                   <span className="font-medium text-gray-900 dark:text-white">
@@ -185,8 +188,11 @@ export const AdvancedAnalytics = () => {
       </div>
 
       {/* Category Rankings */}
-      <div className="card p-6 fade-in" style={{ animationDelay: "0.2s" }}>
-        <h3 className="text-lg font-semibold mb-4 dark:text-white flex items-center gap-2">
+      <div
+        className="panel-card p-6 fade-in"
+        style={{ animationDelay: "0.2s" }}
+      >
+        <h3 className="mb-4 flex items-center gap-2 text-2xl font-bold text-slate-900 dark:text-white">
           <Tag size={20} className="text-orange-600" />
           Spending by Category
         </h3>
@@ -227,9 +233,12 @@ export const AdvancedAnalytics = () => {
       </div>
 
       {/* Grouped Data View */}
-      <div className="card p-6 fade-in" style={{ animationDelay: "0.3s" }}>
+      <div
+        className="panel-card p-6 fade-in"
+        style={{ animationDelay: "0.3s" }}
+      >
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-semibold dark:text-white flex items-center gap-2">
+          <h3 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
             <Grid size={20} className="text-indigo-600" />
             Group By
           </h3>

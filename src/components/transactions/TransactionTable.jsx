@@ -128,6 +128,33 @@ export const TransactionTable = () => {
     await deleteTransaction(id);
   };
 
+  const applyQuickFilter = (mode) => {
+    const now = new Date();
+    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1)
+      .toISOString()
+      .split("T")[0];
+    const monthEnd = now.toISOString().split("T")[0];
+
+    if (mode === "all") {
+      clearFilters();
+      return;
+    }
+
+    if (mode === "income") {
+      setFilterType("income");
+      return;
+    }
+
+    if (mode === "expense") {
+      setFilterType("expense");
+      return;
+    }
+
+    if (mode === "month") {
+      setDateRange(monthStart, monthEnd);
+    }
+  };
+
   const renderRows = (txns) => {
     return txns.map((transaction) => (
       <tr
@@ -241,13 +268,19 @@ export const TransactionTable = () => {
     <>
       <div
         id="transactions"
-        className="card p-6 fade-in"
+        className="panel-card p-6 fade-in"
         style={{ animationDelay: "0.2s" }}
       >
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-          <h2 className="text-lg font-semibold dark:text-white">
-            Transactions
-          </h2>
+        <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="section-kicker">Ledger</p>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+              Transactions
+            </h2>
+            <p className="muted-copy">
+              Filter, sort, group, and export the active ledger.
+            </p>
+          </div>
           <div className="flex flex-wrap gap-2 items-center">
             <ExportPanel transactions={sortedTransactions} />
             {role === "admin" && (
@@ -274,8 +307,49 @@ export const TransactionTable = () => {
         )}
 
         {/* Filters */}
-        <div className="space-y-4 mb-6 pb-6 border-b border-gray-200 dark:border-slate-700">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="mb-6 rounded-[24px] border border-slate-200/80 bg-slate-50/80 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+            <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">
+              Active filters
+            </p>
+            <span className="chip">
+              {sortedTransactions.length} matching row
+              {sortedTransactions.length === 1 ? "" : "s"}
+            </span>
+          </div>
+
+          <div className="mb-4 flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={() => applyQuickFilter("all")}
+              className="chip-solid bg-slate-800 text-white dark:bg-slate-100 dark:text-slate-900"
+            >
+              Reset
+            </button>
+            <button
+              type="button"
+              onClick={() => applyQuickFilter("income")}
+              className="chip-solid bg-teal-500/15 text-teal-700 dark:bg-teal-500/20 dark:text-teal-300"
+            >
+              Income only
+            </button>
+            <button
+              type="button"
+              onClick={() => applyQuickFilter("expense")}
+              className="chip-solid bg-orange-500/15 text-orange-700 dark:bg-orange-500/20 dark:text-orange-300"
+            >
+              Expense only
+            </button>
+            <button
+              type="button"
+              onClick={() => applyQuickFilter("month")}
+              className="chip-solid bg-violet-500/15 text-violet-700 dark:bg-violet-500/20 dark:text-violet-300"
+            >
+              This month
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Type
@@ -405,7 +479,7 @@ export const TransactionTable = () => {
               {hasFilters && (
                 <button
                   onClick={clearFilters}
-                  className="btn btn-secondary w-full mt-6"
+                  className="btn btn-secondary w-full mt-4"
                 >
                   Clear Filters
                 </button>
@@ -432,7 +506,7 @@ export const TransactionTable = () => {
                 );
 
                 return (
-                  <div key={group} className="card p-4 scale-in">
+                  <div key={group} className="panel-card p-4 scale-in">
                     <div className="flex items-center justify-between mb-3">
                       <h3 className="font-semibold text-gray-900 dark:text-white">
                         {group}
@@ -457,11 +531,11 @@ export const TransactionTable = () => {
             renderTable(sortedTransactions)
           )
         ) : (
-          <div className="text-center py-12">
-            <p className="text-gray-500 dark:text-gray-400 text-lg">
+          <div className="rounded-[24px] border border-dashed border-slate-300/80 py-12 text-center dark:border-slate-600">
+            <p className="text-lg text-slate-500 dark:text-slate-400">
               No transactions found
             </p>
-            <p className="text-gray-400 dark:text-gray-500 text-sm mt-1">
+            <p className="mt-1 text-sm text-slate-400 dark:text-slate-500">
               Try adjusting your filters
             </p>
           </div>

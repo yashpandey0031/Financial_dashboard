@@ -1,102 +1,136 @@
-import { TrendingUp, TrendingDown, Wallet } from "lucide-react";
+import {
+  ArrowUpRight,
+  ArrowDownRight,
+  Wallet,
+  BadgeDollarSign,
+} from "lucide-react";
 import { useStore } from "../../store/store";
 import { INITIAL_BALANCE } from "../../data/mockData";
 
 export const SummaryCards = () => {
   const { transactions } = useStore();
 
-  const getTotalIncome = () => {
-    return transactions
-      .filter((t) => t.type === "income")
-      .reduce((sum, t) => sum + t.amount, 0);
-  };
+  const totalIncome = transactions
+    .filter((transaction) => transaction.type === "income")
+    .reduce((sum, transaction) => sum + transaction.amount, 0);
 
-  const getTotalExpenses = () => {
-    return transactions
-      .filter((t) => t.type === "expense")
-      .reduce((sum, t) => sum + t.amount, 0);
-  };
+  const totalExpenses = transactions
+    .filter((transaction) => transaction.type === "expense")
+    .reduce((sum, transaction) => sum + transaction.amount, 0);
 
-  const getTotalBalance = () => {
-    const sum = transactions.reduce((acc, t) => {
-      return t.type === "income" ? acc + t.amount : acc - t.amount;
+  const totalBalance =
+    INITIAL_BALANCE +
+    transactions.reduce((sum, transaction) => {
+      return transaction.type === "income"
+        ? sum + transaction.amount
+        : sum - transaction.amount;
     }, 0);
-    return INITIAL_BALANCE + sum;
-  };
 
-  const totalIncome = getTotalIncome();
-  const totalExpenses = getTotalExpenses();
-  const totalBalance = getTotalBalance();
+  const profitLoss = totalIncome - totalExpenses;
+
+  const maxIncome = transactions
+    .filter((transaction) => transaction.type === "income")
+    .reduce((max, transaction) => Math.max(max, transaction.amount), 0);
+
+  const maxExpense = transactions
+    .filter((transaction) => transaction.type === "expense")
+    .reduce((max, transaction) => Math.max(max, transaction.amount), 0);
+
+  const cards = [
+    {
+      label: "Revenue",
+      value: totalIncome,
+      icon: ArrowUpRight,
+      tone: "border-l-teal-500",
+      iconTone:
+        "bg-teal-500/10 text-teal-700 dark:bg-teal-500/15 dark:text-teal-300",
+      suffix: "inflow",
+    },
+    {
+      label: "Expense",
+      value: totalExpenses,
+      icon: ArrowDownRight,
+      tone: "border-l-orange-500",
+      iconTone:
+        "bg-orange-500/10 text-orange-700 dark:bg-orange-500/15 dark:text-orange-300",
+      suffix: "outflow",
+    },
+    {
+      label: "Profit/Loss",
+      value: profitLoss,
+      icon: BadgeDollarSign,
+      tone: profitLoss >= 0 ? "border-l-emerald-500" : "border-l-rose-500",
+      iconTone:
+        profitLoss >= 0
+          ? "bg-emerald-500/10 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300"
+          : "bg-rose-500/10 text-rose-700 dark:bg-rose-500/15 dark:text-rose-300",
+      suffix: profitLoss >= 0 ? "positive" : "negative",
+    },
+    {
+      label: "Max Revenue",
+      value: maxIncome,
+      icon: Wallet,
+      tone: "border-l-orange-500",
+      iconTone:
+        "bg-orange-500/10 text-orange-700 dark:bg-orange-500/15 dark:text-orange-300",
+      suffix: "largest income",
+    },
+    {
+      label: "Max Expense",
+      value: maxExpense,
+      icon: ArrowDownRight,
+      tone: "border-l-fuchsia-500",
+      iconTone:
+        "bg-fuchsia-500/10 text-fuchsia-700 dark:bg-fuchsia-500/15 dark:text-fuchsia-300",
+      suffix: "largest spend",
+    },
+  ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-      <div className="card p-6 border-l-4 border-l-blue-500 fade-in">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-gray-600 dark:text-gray-400 text-sm font-medium">
-              Total Balance
-            </p>
-            <p className="text-3xl font-bold text-blue-600 dark:text-blue-400 mt-2">
-              $
-              {totalBalance.toLocaleString("en-US", {
-                maximumFractionDigits: 0,
-              })}
-            </p>
-          </div>
-          <div className="bg-blue-100 dark:bg-blue-900 p-4 rounded-lg">
-            <Wallet className="text-blue-600 dark:text-blue-400" size={32} />
-          </div>
+    <div className="space-y-4">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <p className="section-kicker">Key metrics</p>
+          <p className="muted-copy">
+            Starting balance included: ${INITIAL_BALANCE.toLocaleString()}.
+          </p>
+        </div>
+        <div className="chip">
+          Current balance: $
+          {totalBalance.toLocaleString("en-US", { maximumFractionDigits: 0 })}
         </div>
       </div>
 
-      <div
-        className="card p-6 border-l-4 border-l-green-500 fade-in"
-        style={{ animationDelay: "0.1s" }}
-      >
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-gray-600 dark:text-gray-400 text-sm font-medium">
-              Total Income
-            </p>
-            <p className="text-3xl font-bold text-green-600 dark:text-green-400 mt-2">
-              $
-              {totalIncome.toLocaleString("en-US", {
-                maximumFractionDigits: 0,
-              })}
-            </p>
-          </div>
-          <div className="bg-green-100 dark:bg-green-900 p-4 rounded-lg">
-            <TrendingUp
-              className="text-green-600 dark:text-green-400"
-              size={32}
-            />
-          </div>
-        </div>
-      </div>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5">
+        {cards.map((card, index) => {
+          const Icon = card.icon;
 
-      <div
-        className="card p-6 border-l-4 border-l-red-500 fade-in"
-        style={{ animationDelay: "0.2s" }}
-      >
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-gray-600 dark:text-gray-400 text-sm font-medium">
-              Total Expenses
-            </p>
-            <p className="text-3xl font-bold text-red-600 dark:text-red-400 mt-2">
-              $
-              {totalExpenses.toLocaleString("en-US", {
-                maximumFractionDigits: 0,
-              })}
-            </p>
-          </div>
-          <div className="bg-red-100 dark:bg-red-900 p-4 rounded-lg">
-            <TrendingDown
-              className="text-red-600 dark:text-red-400"
-              size={32}
-            />
-          </div>
-        </div>
+          return (
+            <div
+              key={card.label}
+              className={`kpi-card fade-in ${card.tone}`}
+              style={{ animationDelay: `${index * 0.07}s` }}
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="kpi-label">{card.label}</p>
+                  <p className="kpi-value">
+                    $
+                    {card.value.toLocaleString("en-US", {
+                      maximumFractionDigits: 0,
+                    })}
+                  </p>
+                  <p className="mt-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
+                    {card.suffix}
+                  </p>
+                </div>
+                <div className={`rounded-2xl p-3 ${card.iconTone}`}>
+                  <Icon size={24} />
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

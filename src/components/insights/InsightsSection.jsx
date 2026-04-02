@@ -136,15 +136,23 @@ export const InsightsSection = () => {
 
   return (
     <div id="insights" className="space-y-6">
-      <h2 className="text-lg font-semibold dark:text-white mb-4">
-        Insights & Analytics
-      </h2>
+      <div className="flex items-end justify-between gap-3">
+        <div>
+          <p className="section-kicker">Insights</p>
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+            Insights & Analytics
+          </h2>
+        </div>
+        <p className="muted-copy hidden sm:block">
+          Auto-generated from the current transaction set.
+        </p>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {insightCards.map((insight, idx) => (
           <div
             key={idx}
-            className={`card p-6 border-l-4 fade-in ${colorClasses[insight.color]}`}
+            className={`panel-card p-6 border-l-4 fade-in ${colorClasses[insight.color]}`}
             style={{ animationDelay: `${idx * 0.1}s` }}
           >
             <div className="flex items-start gap-4">

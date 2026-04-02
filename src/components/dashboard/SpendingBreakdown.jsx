@@ -9,14 +9,14 @@ import {
 import { useStore } from "../../store/store";
 
 const COLORS = [
-  "#ef4444",
   "#f97316",
-  "#eab308",
-  "#84cc16",
-  "#22c55e",
+  "#fb923c",
+  "#f59e0b",
+  "#14b8a6",
+  "#0d9488",
   "#06b6d4",
-  "#0ea5e9",
-  "#8b5cf6",
+  "#22c55e",
+  "#a855f7",
 ];
 
 export const SpendingBreakdown = () => {
@@ -35,46 +35,61 @@ export const SpendingBreakdown = () => {
   const data = getCategoryBreakdown();
 
   return (
-    <div className="card p-6 fade-in" style={{ animationDelay: "0.1s" }}>
-      <h2 className="text-lg font-semibold mb-4 dark:text-white">
-        Spending Breakdown by Category
-      </h2>
+    <div className="panel-card p-6 fade-in" style={{ animationDelay: "0.1s" }}>
+      <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p className="section-kicker">Category mix</p>
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+            Expense Distribution
+          </h2>
+        </div>
+        <p className="text-sm text-slate-500 dark:text-slate-400">
+          Focuses on expense categories only
+        </p>
+      </div>
+
       {data.length > 0 ? (
-        <ResponsiveContainer width="100%" height={300}>
-          <PieChart>
-            <Pie
-              data={data}
-              cx="50%"
-              cy="50%"
-              labelLine={false}
-              label={({ name, value }) => `${name}: $${value}`}
-              outerRadius={80}
-              fill="#8884d8"
-              dataKey="value"
-              animationBegin={0}
-              animationDuration={400}
-            >
-              {data.map((entry, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={COLORS[index % COLORS.length]}
-                />
-              ))}
-            </Pie>
-            <Tooltip
-              contentStyle={{
-                backgroundColor: "#1f2937",
-                border: "1px solid #374151",
-                borderRadius: "8px",
-                color: "#f3f4f6",
-              }}
-              formatter={(value) => `$${value.toLocaleString()}`}
-            />
-            <Legend />
-          </PieChart>
-        </ResponsiveContainer>
+        <div className="rounded-[24px] border border-slate-200/80 bg-gradient-to-b from-white/70 to-slate-50/80 p-3 dark:border-slate-700 dark:from-slate-900/60 dark:to-slate-950/60">
+          <ResponsiveContainer width="100%" height={320}>
+            <PieChart>
+              <Pie
+                data={data}
+                cx="50%"
+                cy="50%"
+                innerRadius={68}
+                outerRadius={106}
+                paddingAngle={3}
+                labelLine={false}
+                label={({ name, percent }) =>
+                  `${name} ${Math.round(percent * 100)}%`
+                }
+                fill="#8884d8"
+                dataKey="value"
+                animationBegin={0}
+                animationDuration={500}
+              >
+                {data.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Pie>
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "rgba(15, 23, 42, 0.95)",
+                  border: "1px solid rgba(148, 163, 184, 0.18)",
+                  borderRadius: "16px",
+                  color: "#f8fafc",
+                }}
+                formatter={(value) => `$${value.toLocaleString()}`}
+              />
+              <Legend />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
       ) : (
-        <p className="text-gray-500 dark:text-gray-400 text-center py-8">
+        <p className="py-10 text-center text-slate-500 dark:text-slate-400">
           No expense data available
         </p>
       )}
