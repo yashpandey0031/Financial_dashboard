@@ -5,7 +5,7 @@ import { TransactionModal } from "./TransactionModal";
 import { ExportPanel } from "./ExportPanel";
 import { filterUtils } from "../../utils/filters";
 
-export const TransactionTable = () => {
+export const TransactionTable = ({ showLimit = null }) => {
   const {
     transactions,
     role,
@@ -528,7 +528,11 @@ export const TransactionTable = () => {
               })}
             </div>
           ) : (
-            renderTable(sortedTransactions)
+            renderTable(
+              showLimit
+                ? sortedTransactions.slice(0, showLimit)
+                : sortedTransactions,
+            )
           )
         ) : (
           <div className="rounded-[24px] border border-dashed border-slate-300/80 py-12 text-center dark:border-slate-600">

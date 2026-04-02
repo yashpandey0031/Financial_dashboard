@@ -38,95 +38,65 @@ export const SummaryCards = () => {
 
   const cards = [
     {
-      label: "Revenue",
-      value: totalIncome,
-      icon: ArrowUpRight,
-      tone: "border-l-teal-500",
-      iconTone:
-        "bg-teal-500/10 text-teal-700 dark:bg-teal-500/15 dark:text-teal-300",
-      suffix: "inflow",
+      label: "Total Balance",
+      value: totalBalance,
+      icon: Wallet,
+      color: "blue",
     },
     {
-      label: "Expense",
+      label: "Income",
+      value: totalIncome,
+      icon: ArrowUpRight,
+      color: "green",
+    },
+    {
+      label: "Expenses",
       value: totalExpenses,
       icon: ArrowDownRight,
-      tone: "border-l-orange-500",
-      iconTone:
-        "bg-orange-500/10 text-orange-700 dark:bg-orange-500/15 dark:text-orange-300",
-      suffix: "outflow",
+      color: "red",
     },
     {
       label: "Profit/Loss",
       value: profitLoss,
       icon: BadgeDollarSign,
-      tone: profitLoss >= 0 ? "border-l-emerald-500" : "border-l-rose-500",
-      iconTone:
-        profitLoss >= 0
-          ? "bg-emerald-500/10 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300"
-          : "bg-rose-500/10 text-rose-700 dark:bg-rose-500/15 dark:text-rose-300",
-      suffix: profitLoss >= 0 ? "positive" : "negative",
-    },
-    {
-      label: "Max Revenue",
-      value: maxIncome,
-      icon: Wallet,
-      tone: "border-l-orange-500",
-      iconTone:
-        "bg-orange-500/10 text-orange-700 dark:bg-orange-500/15 dark:text-orange-300",
-      suffix: "largest income",
-    },
-    {
-      label: "Max Expense",
-      value: maxExpense,
-      icon: ArrowDownRight,
-      tone: "border-l-fuchsia-500",
-      iconTone:
-        "bg-fuchsia-500/10 text-fuchsia-700 dark:bg-fuchsia-500/15 dark:text-fuchsia-300",
-      suffix: "largest spend",
+      color: profitLoss >= 0 ? "green" : "red",
     },
   ];
 
+  const getColorClasses = (color) => {
+    const colors = {
+      blue: "bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 border-l-blue-500",
+      green:
+        "bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 border-l-green-500",
+      red: "bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300 border-l-red-500",
+    };
+    return colors[color] || colors.blue;
+  };
+
   return (
     <div className="space-y-4">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <p className="section-kicker">Key metrics</p>
-          <p className="muted-copy">
-            Starting balance included: ${INITIAL_BALANCE.toLocaleString()}.
-          </p>
-        </div>
-        <div className="chip">
-          Current balance: $
-          {totalBalance.toLocaleString("en-US", { maximumFractionDigits: 0 })}
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {cards.map((card, index) => {
           const Icon = card.icon;
+          const colorClasses = getColorClasses(card.color);
 
           return (
             <div
               key={card.label}
-              className={`kpi-card fade-in ${card.tone}`}
-              style={{ animationDelay: `${index * 0.07}s` }}
+              className={`summary-card border-l-4 ${colorClasses} fade-in`}
+              style={{ animationDelay: `${index * 0.05}s` }}
             >
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="kpi-label">{card.label}</p>
-                  <p className="kpi-value">
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex-1">
+                  <p className="summary-card-label">{card.label}</p>
+                  <p className="summary-card-value">
                     $
                     {card.value.toLocaleString("en-US", {
                       maximumFractionDigits: 0,
                     })}
                   </p>
-                  <p className="mt-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
-                    {card.suffix}
-                  </p>
                 </div>
-                <div className={`rounded-2xl p-3 ${card.iconTone}`}>
-                  <Icon size={24} />
-                </div>
+                <Icon size={24} className="mt-1 opacity-60" />
               </div>
             </div>
           );

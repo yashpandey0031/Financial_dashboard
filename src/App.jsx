@@ -1,15 +1,19 @@
 import { Navbar } from "./components/layout/Navbar";
-import { Sidebar } from "./components/layout/Sidebar";
 import { SummaryCards } from "./components/dashboard/SummaryCards";
 import { BalanceTrend } from "./components/dashboard/BalanceTrend";
 import { SpendingBreakdown } from "./components/dashboard/SpendingBreakdown";
 import { TransactionTable } from "./components/transactions/TransactionTable";
 import { InsightsSection } from "./components/insights/InsightsSection";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useStore } from "./store/store";
 
 function App() {
   const { darkMode, syncApiFromLocal } = useStore();
+  const [activeTab, setActiveTab] = useState("overview");
+  const [expandedSections, setExpandedSections] = useState({
+    transactions: false,
+    insights: false,
+  });
 
   useEffect(() => {
     if (darkMode) {
@@ -23,59 +27,152 @@ function App() {
     syncApiFromLocal();
   }, [syncApiFromLocal]);
 
+  const toggleSection = (section) => {
+    setExpandedSections((prev) => ({
+      ...prev,
+      [section]: !prev[section],
+    }));
+  };
+
   return (
-    <div className={`dashboard-shell ${darkMode ? "dark" : ""}`}>
+    <div className={`${darkMode ? "dark" : ""}`}>
       <Navbar />
-      <div className="flex">
-        <Sidebar />
-        <main className="dashboard-surface flex-1 min-h-screen px-4 py-6 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-[1600px] space-y-6">
-            <section id="overview" className="py-4">
-              <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
-                Finance Dashboard
-              </h1>
-              <p className="text-slate-600 dark:text-slate-300">
-                Track your income, expenses, and spending patterns at a glance.
-              </p>
-            </section>
 
-            <SummaryCards />
+      <div className="min-h-screen bg-white dark:bg-slate-950">
+        {/* Tab Navigation */}
+        <div className="border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900">
+          <div className="mx-auto max-w-7xl">
+            <div className="flex gap-8 px-6">
+              <button
+                onClick={() => setActiveTab("overview")}
+                className={`py-4 font-medium text-sm transition border-b-2 ${
+                  activeTab === "overview"
+                    ? "border-blue-600 text-blue-600"
+                    : "border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-300"
+                }`}
+              >
+                Overview
+              </button>
+              <button
+                onClick={() => setActiveTab("transactions")}
+                className={`py-4 font-medium text-sm transition border-b-2 ${
+                  activeTab === "transactions"
+                    ? "border-blue-600 text-blue-600"
+                    : "border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-300"
+                }`}
+              >
+                Transactions
+              </button>
+              <button
+                onClick={() => setActiveTab("insights")}
+                className={`py-4 font-medium text-sm transition border-b-2 ${
+                  activeTab === "insights"
+                    ? "border-blue-600 text-blue-600"
+                    : "border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-300"
+                }`}
+              >
+                Insights
+              </button>
+            </div>
+          </div>
+        </div>
 
-            <section className="grid grid-cols-1 gap-6 xl:grid-cols-[1.25fr_0.95fr]">
-              <BalanceTrend />
-              <SpendingBreakdown />
-            </section>
+        {/* Main Content */}
+        <main className="mx-auto max-w-7xl px-6 py-8">
+          {/* Overview Tab */}
+          {activeTab === "overview" && (
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-1">
+                  Overview
+                </h2>
+                <p className="text-slate-600 dark:text-slate-400">
+                  Summary of your financial activity
+                </p>
+              </div>
 
-            <div className="grid grid-cols-1 gap-6">
+              {/* Summary Cards */}
+              <div>
+                <SummaryCards />
+              </div>
+
+              {/* Charts Grid */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <BalanceTrend />
+                <SpendingBreakdown />
+              </div>
+
+              {/* Collapsible Transactions Preview */}
+              <div className="border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden">
+                <button
+                  onClick={() => toggleSection("transactions")}
+                  className="w-full px-6 py-4 bg-slate-50 dark:bg-slate-800 flex items-center justify-between hover:bg-slate-100 dark:hover:bg-slate-700 transition"
+                >
+                  <h3 className="font-semibold text-slate-900 dark:text-white">
+                    Recent Transactions
+                  </h3>
+                  <span className="text-slate-500 dark:text-slate-400">
+                    {expandedSections.transactions ? "−" : "+"}
+                  </span>
+                </button>
+                {expandedSections.transactions && (
+                  <div className="p-6 border-t border-slate-200 dark:border-slate-700">
+                    <TransactionTable showLimit={5} />
+                  </div>
+                )}
+              </div>
+
+              {/* Collapsible Insights Preview */}
+              <div className="border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden">
+                <button
+                  onClick={() => toggleSection("insights")}
+                  className="w-full px-6 py-4 bg-slate-50 dark:bg-slate-800 flex items-center justify-between hover:bg-slate-100 dark:hover:bg-slate-700 transition"
+                >
+                  <h3 className="font-semibold text-slate-900 dark:text-white">
+                    Key Insights
+                  </h3>
+                  <span className="text-slate-500 dark:text-slate-400">
+                    {expandedSections.insights ? "−" : "+"}
+                  </span>
+                </button>
+                {expandedSections.insights && (
+                  <div className="p-6 border-t border-slate-200 dark:border-slate-700">
+                    <InsightsSection />
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Transactions Tab */}
+          {activeTab === "transactions" && (
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-1">
+                  All Transactions
+                </h2>
+                <p className="text-slate-600 dark:text-slate-400">
+                  View and manage all your financial transactions
+                </p>
+              </div>
               <TransactionTable />
+            </div>
+          )}
+
+          {/* Insights Tab */}
+          {activeTab === "insights" && (
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-1">
+                  Insights
+                </h2>
+                <p className="text-slate-600 dark:text-slate-400">
+                  Data-driven insights about your spending
+                </p>
+              </div>
               <InsightsSection />
             </div>
-
-            <footer className="pb-24 lg:pb-6 text-center text-sm text-slate-500 dark:text-slate-400">
-              <p>Built with React, Tailwind CSS, Recharts, and Zustand.</p>
-            </footer>
-          </div>
-
-          <nav className="fixed bottom-3 left-1/2 z-50 flex w-[calc(100%-1.5rem)] max-w-md -translate-x-1/2 items-center justify-between rounded-2xl border border-orange-200/70 bg-white/90 px-2 py-2 shadow-xl backdrop-blur lg:hidden dark:border-white/20 dark:bg-black/85">
-            <a
-              href="#overview"
-              className="flex-1 rounded-xl px-2 py-2 text-center text-xs font-semibold text-orange-700 dark:text-orange-300"
-            >
-              Overview
-            </a>
-            <a
-              href="#transactions"
-              className="flex-1 rounded-xl bg-slate-900 px-2 py-2 text-center text-xs font-semibold text-white dark:bg-slate-100 dark:text-slate-900"
-            >
-              Transactions
-            </a>
-            <a
-              href="#insights"
-              className="flex-1 rounded-xl px-2 py-2 text-center text-xs font-semibold text-teal-700 dark:text-teal-300"
-            >
-              Insights
-            </a>
-          </nav>
+          )}
         </main>
       </div>
     </div>
