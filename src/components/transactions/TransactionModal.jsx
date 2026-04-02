@@ -3,7 +3,8 @@ import { X } from "lucide-react";
 import { useStore } from "../../store/store";
 
 export const TransactionModal = ({ transactionId, onClose }) => {
-  const { transactions, addTransaction, editTransaction } = useStore();
+  const { transactions, addTransaction, editTransaction, isLoading } =
+    useStore();
   const transaction = transactionId
     ? transactions.find((t) => t.id === transactionId)
     : null;
@@ -42,22 +43,26 @@ export const TransactionModal = ({ transactionId, onClose }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
 
+    let result;
     if (transactionId) {
-      editTransaction(transactionId, {
+      result = await editTransaction(transactionId, {
         ...formData,
         amount: parseFloat(formData.amount),
       });
     } else {
-      addTransaction({
+      result = await addTransaction({
         ...formData,
         amount: parseFloat(formData.amount),
       });
     }
-    onClose();
+
+    if (result?.success) {
+      onClose();
+    }
   };
 
   return (
@@ -176,8 +181,14 @@ export const TransactionModal = ({ transactionId, onClose }) => {
             >
               Cancel
             </button>
-            <button type="submit" className="flex-1 btn btn-primary">
-              {transactionId ? "Update" : "Add"} Transaction
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="flex-1 btn btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isLoading
+                ? "Saving..."
+                : `${transactionId ? "Update" : "Add"} Transaction`}
             </button>
           </div>
         </form>

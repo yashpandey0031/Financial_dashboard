@@ -10,8 +10,33 @@ body {
   @apply bg-white dark:bg-slate-900 text-gray-900 dark:text-gray-100 transition-colors duration-300;
 }
 
+/* Animations */
 .fade-in {
   animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+.slide-in-left {
+  animation: slideInLeft 0.4s ease-out forwards;
+}
+
+.slide-in-right {
+  animation: slideInRight 0.4s ease-out forwards;
+}
+
+.slide-in-up {
+  animation: slideInUp 0.4s ease-out forwards;
+}
+
+.bounce-in {
+  animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+.scale-in {
+  animation: scaleIn 0.4s ease-out forwards;
+}
+
+.pulse-gentle {
+  animation: pulseGentle 2s ease-in-out infinite;
 }
 
 @keyframes fadeIn {
@@ -25,26 +50,194 @@ body {
   }
 }
 
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulseGentle {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Component Styles */
 .card {
   @apply bg-white dark:bg-slate-800 rounded-lg shadow-md border border-gray-200 dark:border-slate-700 transition-all duration-300;
 }
 
 .card:hover {
-  @apply shadow-lg;
+  @apply shadow-lg border-gray-300 dark:border-slate-600;
+}
+
+.card:active {
+  @apply shadow-md;
 }
 
 .btn {
-  @apply px-4 py-2 rounded-lg font-medium transition-all duration-200;
+  @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 active:scale-95;
+}
+
+.btn:hover {
+  @apply -translate-y-0.5;
+}
+
+.btn:active {
+  @apply translate-y-0;
 }
 
 .btn-primary {
-  @apply bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600;
+  @apply bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 shadow-md hover:shadow-lg;
 }
 
 .btn-secondary {
-  @apply bg-gray-200 dark:bg-slate-700 text-gray-900 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-slate-600;
+  @apply bg-gray-200 dark:bg-slate-700 text-gray-900 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-slate-600 transition-colors;
 }
 
 .btn-danger {
-  @apply bg-red-600 text-white hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-600;
+  @apply bg-red-600 text-white hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-600 shadow-md hover:shadow-lg;
+}
+
+/* Input and Form Styles */
+input,
+select,
+textarea {
+  @apply transition-all duration-200;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  @apply ring-2 ring-blue-500 ring-opacity-50;
+}
+
+/* Table Styles */
+table tbody tr {
+  @apply transition-colors duration-200;
+}
+
+table tbody tr:hover {
+  @apply bg-blue-50 dark:bg-slate-700;
+}
+
+/* Modal Backdrop */
+.modal-backdrop {
+  animation: fadeIn 0.2s ease-out forwards;
+}
+
+/* Smooth Scrollbar */
+::-webkit-scrollbar {
+  @apply w-2;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-slate-800;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 dark:bg-slate-600 rounded-full hover:bg-gray-400 dark:hover:bg-slate-500;
+}
+
+/* Loading State */
+.loading {
+  @apply relative overflow-hidden;
+}
+
+.loading::after {
+  content: "";
+  @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse rounded;
+}
+
+/* Chart Container */
+.chart-container {
+  @apply transition-all duration-300;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .card {
+    @apply rounded-md;
+  }
+
+  .btn {
+    @apply px-3 py-1.5 text-sm;
+  }
+}
+
+/* Dark Mode Smooth Transition */
+html.dark {
+  color-scheme: dark;
+}
+
+/* Custom Transitions for Specific Elements */
+.nav-link {
+  @apply relative transition-colors duration-200;
+}
+
+.nav-link::after {
+  @apply absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300;
+}
+
+.nav-link:hover::after {
+  @apply w-full;
 }

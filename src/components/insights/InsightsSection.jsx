@@ -1,5 +1,6 @@
 import { useStore } from "../../store/store";
 import { TrendingUp, AlertCircle, Target, BarChart3 } from "lucide-react";
+import { AdvancedAnalytics } from "./AdvancedAnalytics";
 
 export const InsightsSection = () => {
   const { transactions } = useStore();
@@ -167,6 +168,8 @@ export const InsightsSection = () => {
           </div>
         ))}
       </div>
+
+      <AdvancedAnalytics />
     </div>
   );
 };

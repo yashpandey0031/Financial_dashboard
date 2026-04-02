@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import { useStore } from "./store/store";
 
 function App() {
-  const { darkMode } = useStore();
+  const { darkMode, syncApiFromLocal } = useStore();
 
   useEffect(() => {
     if (darkMode) {
@@ -18,6 +18,10 @@ function App() {
       document.documentElement.classList.remove("dark");
     }
   }, [darkMode]);
+
+  useEffect(() => {
+    syncApiFromLocal();
+  }, [syncApiFromLocal]);
 
   return (
     <div className={darkMode ? "dark" : ""}>
