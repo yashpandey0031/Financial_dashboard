@@ -30,41 +30,34 @@
 .right-column {
   display: grid;
   grid-template-columns: 360px 1fr;
-  grid-template-rows: auto auto auto;
-  gap: 15px;
-  grid-auto-flow: row;
+  grid-template-rows: auto 1fr;
+  gap: 30px;
+}
+
+.right-column > * {
+  min-width: 0;
 }
 
 .right-column .metrics-card {
   grid-column: 1;
   grid-row: 1;
-  margin-bottom: 0;
   align-self: start;
-  height: fit-content;
 }
 
 .right-column .chart-card:nth-of-type(1) {
   grid-column: 2;
-  grid-row: 1 / span 2;
-  margin-bottom: 0;
-  align-self: stretch;
-  height: 100%;
+  grid-row: 1;
+  align-self: start;
 }
 
 .right-column .chart-card:nth-of-type(2) {
   grid-column: 1;
   grid-row: 2;
-  width: 340px;
-  margin-bottom: 0;
-  margin-top: 0;
-  height: fit-content;
+  align-self: start;
 }
 
 .right-column .activities-card {
-  grid-column: 1 / -1;
-  grid-row: 3;
-  width: 100%;
-  margin-top: 0;
-  margin-bottom: 0;
-  height: fit-content;
+  grid-column: 2;
+  grid-row: 2;
+  align-self: start;
 }

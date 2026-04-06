@@ -173,10 +173,24 @@
   margin-bottom: 0;
 }
 
+.activities-card .card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
 .activities-controls {
   display: flex;
   gap: 12px;
   align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.search-bar {
+  flex: 1;
 }
 
 .search-input {
@@ -204,10 +218,11 @@
 
 .filter-dropdown {
   position: relative;
+  flex-shrink: 0;
 }
 
 .filter-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #ff9500 0%, #ff7c00 100%);
   border: 2px solid transparent;
   padding: 10px 14px;
   border-radius: 8px;
@@ -221,14 +236,14 @@
   font-size: 13px;
   font-weight: 700;
   white-space: nowrap;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 15px rgba(255, 149, 0, 0.3);
   letter-spacing: 0.5px;
 }
 
 .filter-btn:hover {
-  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  background: linear-gradient(135deg, #ff7c00 0%, #ff6600 100%);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 6px 20px rgba(255, 149, 0, 0.4);
 }
 
 .filter-btn:active {
@@ -240,10 +255,10 @@
   top: 100%;
   right: 0;
   background: white;
-  border: 2px solid #667eea;
+  border: 2px solid #ff9500;
   border-radius: 12px;
   margin-top: 12px;
-  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+  box-shadow: 0 10px 30px rgba(255, 149, 0, 0.18);
   z-index: 10;
   min-width: 220px;
   overflow: hidden;
@@ -274,7 +289,7 @@
   display: block;
   font-size: 11px;
   font-weight: 700;
-  color: #667eea;
+  color: #ff9500;
   text-transform: uppercase;
   margin-bottom: 10px;
   letter-spacing: 1px;
@@ -303,21 +318,21 @@
 .filter-option:hover {
   background: linear-gradient(
     135deg,
-    rgba(102, 126, 234, 0.15) 0%,
-    rgba(118, 75, 162, 0.15) 100%
+    rgba(255, 149, 0, 0.14) 0%,
+    rgba(255, 107, 107, 0.12) 100%
   );
-  border-color: #667eea;
-  color: #667eea;
+  border-color: #ff9500;
+  color: #ff9500;
   transform: translateX(6px);
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);
+  box-shadow: 0 2px 8px rgba(255, 149, 0, 0.15);
 }
 
 .filter-option.active {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #ff9500 0%, #ff7c00 100%);
   color: white;
   font-weight: 700;
-  border-color: #667eea;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  border-color: #ff9500;
+  box-shadow: 0 4px 12px rgba(255, 149, 0, 0.4);
 }
 
 /* ========== TABLE ========== */
@@ -364,6 +379,12 @@
 .activity-icon {
   font-size: 16px;
   min-width: 20px;
+}
+
+.activity-icon-svg {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .category-badge {
@@ -488,21 +509,21 @@
 }
 
 .dark-theme .filter-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-color: #667eea;
+  background: linear-gradient(135deg, #ff9500 0%, #ff7c00 100%);
+  border-color: #ff9500;
   color: white;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 15px rgba(255, 149, 0, 0.4);
 }
 
 .dark-theme .filter-btn:hover {
-  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+  background: linear-gradient(135deg, #ff7c00 0%, #ff6600 100%);
+  box-shadow: 0 6px 20px rgba(255, 149, 0, 0.5);
 }
 
 .dark-theme .filter-menu {
   background: #1a1a1a;
-  border-color: #667eea;
-  box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
+  border-color: #ff9500;
+  box-shadow: 0 10px 40px rgba(255, 149, 0, 0.25);
 }
 
 .dark-theme .filter-section {
@@ -510,7 +531,7 @@
 }
 
 .dark-theme .filter-label {
-  color: #667eea;
+  color: #ff9500;
 }
 
 .dark-theme .filter-option {
@@ -520,17 +541,17 @@
 }
 
 .dark-theme .filter-option:hover {
-  background: rgba(102, 126, 234, 0.2);
-  border-color: #667eea;
-  color: #8ba3ff;
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.25);
+  background: rgba(255, 149, 0, 0.18);
+  border-color: #ff9500;
+  color: #ffd39a;
+  box-shadow: 0 2px 8px rgba(255, 149, 0, 0.22);
 }
 
 .dark-theme .filter-option.active {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #ff9500 0%, #ff7c00 100%);
   color: white;
-  border-color: #667eea;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.5);
+  border-color: #ff9500;
+  box-shadow: 0 4px 12px rgba(255, 149, 0, 0.45);
 }
 
 .dark-theme .table-header {

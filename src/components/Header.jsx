@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { Search, Bell, Settings, ChevronDown, Moon, Sun } from "lucide-react";
+import { AppContext } from "../context/AppContext";
 
-const Header = ({ isDarkTheme, setIsDarkTheme, userRole, setUserRole }) => {
+const Header = ({ isDarkTheme, setIsDarkTheme }) => {
+  const { userRole, setUserRole } = useContext(AppContext);
+  const [showRoleMenu, setShowRoleMenu] = useState(false);
+
   return (
     <header className="header">
       <div className="header-left">
@@ -29,14 +33,38 @@ const Header = ({ isDarkTheme, setIsDarkTheme, userRole, setUserRole }) => {
       </nav>
       <div className="header-right">
         <div className="role-selector">
-          <select
+          <button
+            type="button"
             className="role-dropdown"
-            value={userRole}
-            onChange={(e) => setUserRole(e.target.value)}
+            onClick={() => setShowRoleMenu((current) => !current)}
           >
-            <option value="viewer">Viewer</option>
-            <option value="admin">Admin</option>
-          </select>
+            <span>{userRole === "admin" ? "Admin" : "Viewer"}</span>
+            <ChevronDown size={14} />
+          </button>
+          {showRoleMenu && (
+            <div className="role-menu">
+              <button
+                type="button"
+                className={`role-option ${userRole === "viewer" ? "active" : ""}`}
+                onClick={() => {
+                  setUserRole("viewer");
+                  setShowRoleMenu(false);
+                }}
+              >
+                Viewer
+              </button>
+              <button
+                type="button"
+                className={`role-option ${userRole === "admin" ? "active" : ""}`}
+                onClick={() => {
+                  setUserRole("admin");
+                  setShowRoleMenu(false);
+                }}
+              >
+                Admin
+              </button>
+            </div>
+          )}
         </div>
         <button
           className="icon-btn"

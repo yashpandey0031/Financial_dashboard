@@ -1,18 +1,32 @@
-import React, { useState, useMemo } from "react";
-import { Filter, ChevronDown, Trash2, Plus } from "lucide-react";
+import React, { useState, useContext } from "react";
+import {
+  Filter,
+  ChevronDown,
+  Trash2,
+  Plus,
+  CarFront,
+  Plane,
+  ShoppingCart,
+  Wallet,
+  ReceiptText,
+  CirclePlus,
+} from "lucide-react";
+import { AppContext } from "../context/AppContext";
 
-const RecentActivities = ({
-  activities,
-  getStatusColor,
-  getStatusIcon,
-  userRole = "viewer",
-}) => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filterType, setFilterType] = useState("all");
-  const [sortBy, setSortBy] = useState("date");
+const RecentActivities = () => {
+  const {
+    activities,
+    filters,
+    setFilters,
+    userRole,
+    addTransaction,
+    deleteTransaction,
+    getStatusColor,
+    getStatusIcon,
+  } = useContext(AppContext);
+
   const [showFilterMenu, setShowFilterMenu] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
-  const [transactionList, setTransactionList] = useState(activities);
   const [newTransaction, setNewTransaction] = useState({
     activity: "",
     amount: "",
@@ -25,42 +39,32 @@ const RecentActivities = ({
     }),
   });
 
-  const filteredAndSortedActivities = useMemo(() => {
-    let filtered = transactionList.filter((activity) => {
-      const matchesSearch =
-        activity.activity.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        activity.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        activity.id.toLowerCase().includes(searchTerm.toLowerCase());
+  const categories = [...new Set(activities.map((a) => a.category))];
 
-      const matchesFilter =
-        filterType === "all" ||
-        activity.type === filterType ||
-        activity.category === filterType;
+  const renderActivityIcon = (activity) => {
+    const iconProps = { size: 16, strokeWidth: 2.2 };
 
-      return matchesSearch && matchesFilter;
-    });
-
-    filtered.sort((a, b) => {
-      if (sortBy === "date") {
-        return new Date(b.date) - new Date(a.date);
-      } else if (sortBy === "amount") {
-        return b.amount - a.amount;
-      } else if (sortBy === "activity") {
-        return a.activity.localeCompare(b.activity);
-      }
-      return 0;
-    });
-
-    return filtered;
-  }, [transactionList, searchTerm, filterType, sortBy]);
-
-  const categories = [...new Set(transactionList.map((a) => a.category))];
+    switch (activity.category) {
+      case "Transport":
+        return <CarFront {...iconProps} />;
+      case "Travel":
+        return <Plane {...iconProps} />;
+      case "Food":
+        return <ShoppingCart {...iconProps} />;
+      case "Salary":
+        return <Wallet {...iconProps} />;
+      case "Subscriptions":
+        return <ReceiptText {...iconProps} />;
+      default:
+        return <CirclePlus {...iconProps} />;
+    }
+  };
 
   const handleAddTransaction = () => {
     if (!newTransaction.activity || !newTransaction.amount) return;
 
     const transaction = {
-      id: `INV-${String(transactionList.length + 1).padStart(6, "0")}`,
+      id: `INV-${String(activities.length + 1).padStart(6, "0")}`,
       activity: newTransaction.activity,
       amount: parseFloat(newTransaction.amount),
       price: `$${parseFloat(newTransaction.amount).toFixed(2)}`,
@@ -68,10 +72,10 @@ const RecentActivities = ({
       type: newTransaction.type,
       date: newTransaction.date,
       status: "Completed",
-      icon: "📝",
+      icon: "circle-plus",
     };
 
-    setTransactionList([transaction, ...transactionList]);
+    addTransaction(transaction);
     setNewTransaction({
       activity: "",
       amount: "",
@@ -86,10 +90,6 @@ const RecentActivities = ({
     setShowAddModal(false);
   };
 
-  const handleDeleteTransaction = (id) => {
-    setTransactionList(transactionList.filter((t) => t.id !== id));
-  };
-
   return (
     <div className="card activities-card">
       <div className="card-header">
@@ -99,219 +99,213 @@ const RecentActivities = ({
             <button
               className="add-transaction-btn"
               onClick={() => setShowAddModal(true)}
-              title="Add new transaction"
             >
-              <Plus size={16} /> Add Transaction
+              <Plus size={14} />
+              Add Transaction
             </button>
           )}
         </div>
         <div className="activities-controls">
-          <input
-            type="text"
-            placeholder="Search activity, category, or ID..."
-            className="search-input"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <div className="filter-dropdown">
+          <div className="search-bar">
+            <input
+              type="text"
+              placeholder="Search activity, category, or ID"
+              className="search-input"
+              value={filters.searchQuery}
+              onChange={(e) =>
+                setFilters({ ...filters, searchQuery: e.target.value })
+              }
+            />
+          </div>
+          <div className="filter-container">
             <button
               className="filter-btn"
               onClick={() => setShowFilterMenu(!showFilterMenu)}
             >
-              <Filter size={16} />
-              <ChevronDown size={14} />
+              <Filter size={14} />
+              <span>Filter</span>
+              <ChevronDown size={16} />
             </button>
             {showFilterMenu && (
               <div className="filter-menu">
                 <div className="filter-section">
-                  <label className="filter-label">Type</label>
-                  <button
-                    className={`filter-option ${filterType === "all" ? "active" : ""}`}
-                    onClick={() => {
-                      setFilterType("all");
-                      setShowFilterMenu(false);
-                    }}
-                  >
-                    All
-                  </button>
-                  <button
-                    className={`filter-option ${filterType === "income" ? "active" : ""}`}
-                    onClick={() => {
-                      setFilterType("income");
-                      setShowFilterMenu(false);
-                    }}
-                  >
-                    Income
-                  </button>
-                  <button
-                    className={`filter-option ${filterType === "expense" ? "active" : ""}`}
-                    onClick={() => {
-                      setFilterType("expense");
-                      setShowFilterMenu(false);
-                    }}
-                  >
-                    Expense
-                  </button>
+                  <span className="filter-label">TYPE</span>
+                  <div className="filter-options">
+                    {["All", "Income", "Expense"].map((type) => (
+                      <button
+                        key={type}
+                        className={`filter-option ${
+                          filters.type === type ? "active" : ""
+                        }`}
+                        onClick={() => setFilters({ ...filters, type })}
+                      >
+                        {type}
+                      </button>
+                    ))}
+                  </div>
                 </div>
                 <div className="filter-section">
-                  <label className="filter-label">Sort By</label>
-                  <button
-                    className={`filter-option ${sortBy === "date" ? "active" : ""}`}
-                    onClick={() => {
-                      setSortBy("date");
-                      setShowFilterMenu(false);
-                    }}
-                  >
-                    Date
-                  </button>
-                  <button
-                    className={`filter-option ${sortBy === "amount" ? "active" : ""}`}
-                    onClick={() => {
-                      setSortBy("amount");
-                      setShowFilterMenu(false);
-                    }}
-                  >
-                    Amount
-                  </button>
-                  <button
-                    className={`filter-option ${sortBy === "activity" ? "active" : ""}`}
-                    onClick={() => {
-                      setSortBy("activity");
-                      setShowFilterMenu(false);
-                    }}
-                  >
-                    Activity Name
-                  </button>
+                  <span className="filter-label">SORT BY</span>
+                  <div className="filter-options">
+                    {["Date", "Amount", "Activity Name"].map((sortBy) => (
+                      <button
+                        key={sortBy}
+                        className={`filter-option ${
+                          filters.sortBy === sortBy ? "active" : ""
+                        }`}
+                        onClick={() => setFilters({ ...filters, sortBy })}
+                      >
+                        {sortBy}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
             )}
           </div>
         </div>
       </div>
-      {showAddModal && userRole === "admin" && (
-        <div className="modal-overlay" onClick={() => setShowAddModal(false)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      <div className="activities-table">
+        <div className="table-header">
+          <div className="table-cell">Date</div>
+          <div className="table-cell">Activity</div>
+          <div className="table-cell">Category</div>
+          <div className="table-cell">Amount</div>
+          <div className="table-cell">Type</div>
+          <div className="table-cell">Status</div>
+          {userRole === "admin" && <div className="table-cell">Actions</div>}
+        </div>
+        {activities.map((activity) => (
+          <div className="table-row" key={activity.id}>
+            <div className="table-cell">{activity.date}</div>
+            <div className="table-cell">
+              <span
+                className="activity-icon activity-icon-svg"
+                style={{ color: getStatusColor(activity.status) }}
+              >
+                {renderActivityIcon(activity)}
+              </span>
+              {activity.activity}
+            </div>
+            <div className="table-cell">
+              <span className="category-badge">{activity.category}</span>
+            </div>
+            <div className="table-cell">{activity.price}</div>
+            <div
+              className="table-cell"
+              style={{
+                color: activity.type === "income" ? "#00c851" : "#ff6b6b",
+              }}
+            >
+              {activity.type === "income" ? "+ Income" : "- Expense"}
+            </div>
+            <div className="table-cell">
+              <span
+                className="status-badge"
+                style={{
+                  color: getStatusColor(activity.status),
+                  background: `${getStatusColor(activity.status)}20`,
+                }}
+              >
+                {getStatusIcon(activity.status)} {activity.status}
+              </span>
+            </div>
+            {userRole === "admin" && (
+              <div className="table-cell">
+                <button
+                  className="delete-btn"
+                  onClick={() => deleteTransaction(activity.id)}
+                >
+                  <Trash2 size={14} />
+                </button>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+      {showAddModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
             <h3 className="modal-title">Add New Transaction</h3>
             <div className="modal-body">
-              <input
-                type="text"
-                placeholder="Activity Name"
-                value={newTransaction.activity}
-                onChange={(e) =>
-                  setNewTransaction({
-                    ...newTransaction,
-                    activity: e.target.value,
-                  })
-                }
-                className="modal-input"
-              />
-              <input
-                type="number"
-                placeholder="Amount"
-                step="0.01"
-                value={newTransaction.amount}
-                onChange={(e) =>
-                  setNewTransaction({
-                    ...newTransaction,
-                    amount: e.target.value,
-                  })
-                }
-                className="modal-input"
-              />
-              <input
-                type="text"
-                placeholder="Category"
-                value={newTransaction.category}
-                onChange={(e) =>
-                  setNewTransaction({
-                    ...newTransaction,
-                    category: e.target.value,
-                  })
-                }
-                className="modal-input"
-              />
-              <select
-                value={newTransaction.type}
-                onChange={(e) =>
-                  setNewTransaction({ ...newTransaction, type: e.target.value })
-                }
-                className="modal-input"
-              >
-                <option value="expense">Expense</option>
-                <option value="income">Income</option>
-              </select>
+              <div className="form-group">
+                <label>Activity</label>
+                <input
+                  type="text"
+                  value={newTransaction.activity}
+                  onChange={(e) =>
+                    setNewTransaction({
+                      ...newTransaction,
+                      activity: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div className="form-group">
+                <label>Amount</label>
+                <input
+                  type="number"
+                  value={newTransaction.amount}
+                  onChange={(e) =>
+                    setNewTransaction({
+                      ...newTransaction,
+                      amount: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div className="form-group">
+                <label>Category</label>
+                <select
+                  value={newTransaction.category}
+                  onChange={(e) =>
+                    setNewTransaction({
+                      ...newTransaction,
+                      category: e.target.value,
+                    })
+                  }
+                >
+                  {categories.map((cat) => (
+                    <option key={cat} value={cat}>
+                      {cat}
+                    </option>
+                  ))}
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Type</label>
+                <select
+                  value={newTransaction.type}
+                  onChange={(e) =>
+                    setNewTransaction({
+                      ...newTransaction,
+                      type: e.target.value,
+                    })
+                  }
+                >
+                  <option value="expense">Expense</option>
+                  <option value="income">Income</option>
+                </select>
+              </div>
             </div>
-            <div className="modal-buttons">
+            <div className="modal-footer">
               <button
-                className="modal-btn cancel-btn"
+                className="btn btn-secondary"
                 onClick={() => setShowAddModal(false)}
               >
                 Cancel
               </button>
               <button
-                className="modal-btn save-btn"
+                className="btn btn-primary"
                 onClick={handleAddTransaction}
               >
-                Add Transaction
+                Add
               </button>
             </div>
           </div>
         </div>
       )}
-      <div className="activities-table">
-        <div className="table-header">
-          <div>Date</div>
-          <div>Activity</div>
-          <div>Category</div>
-          <div>Amount</div>
-          <div>Type</div>
-          <div>Status</div>
-          {userRole === "admin" && <div>Actions</div>}
-        </div>
-        {filteredAndSortedActivities.length > 0 ? (
-          filteredAndSortedActivities.map((activity, idx) => (
-            <div key={idx} className="table-row">
-              <div className="table-cell">{activity.date}</div>
-              <div className="table-cell">
-                <span className="activity-icon">{activity.icon}</span>
-                {activity.activity}
-              </div>
-              <div className="table-cell">
-                <span className="category-badge">{activity.category}</span>
-              </div>
-              <div className="table-cell">{activity.price}</div>
-              <div className="table-cell">
-                <span className={`type-badge ${activity.type}`}>
-                  {activity.type === "income" ? "+ " : "- "}
-                  {activity.type.charAt(0).toUpperCase() +
-                    activity.type.slice(1)}
-                </span>
-              </div>
-              <div className="table-cell">
-                <span
-                  className="status-badge"
-                  style={{ color: getStatusColor(activity.status) }}
-                >
-                  {getStatusIcon(activity.status)} {activity.status}
-                </span>
-              </div>
-              {userRole === "admin" && (
-                <div className="table-cell actions-cell">
-                  <button
-                    className="action-btn delete-btn"
-                    onClick={() => handleDeleteTransaction(activity.id)}
-                    title="Delete transaction"
-                  >
-                    <Trash2 size={16} />
-                  </button>
-                </div>
-              )}
-            </div>
-          ))
-        ) : (
-          <div className="empty-state">No transactions found</div>
-        )}
-      </div>
     </div>
   );
 };

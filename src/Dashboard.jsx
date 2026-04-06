@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import Greeting from "./components/Greeting";
@@ -9,19 +9,17 @@ import MetricsCard from "./components/MetricsCard";
 import BalanceTrendChart from "./components/BalanceTrendChart";
 import SpendingBreakdownChart from "./components/SpendingBreakdownChart";
 import RecentActivities from "./components/RecentActivities";
+import { AppContext } from "./context/AppContext";
 import {
   balanceTrendData,
   spendingBreakdownData,
   wallets,
-  activities,
-  getStatusColor,
-  getStatusIcon,
 } from "./utils/dashboardData";
 
 const Dashboard = () => {
   const [showBalance, setShowBalance] = useState(true);
   const [isDarkTheme, setIsDarkTheme] = useState(false);
-  const [userRole, setUserRole] = useState("viewer"); // "viewer" or "admin"
+  const { userRole, setUserRole } = useContext(AppContext);
 
   return (
     <div className={`dashboard-container ${isDarkTheme ? "dark-theme" : ""}`}>
@@ -31,12 +29,7 @@ const Dashboard = () => {
       {/* Main Content */}
       <div className="main-content">
         {/* Header */}
-        <Header
-          isDarkTheme={isDarkTheme}
-          setIsDarkTheme={setIsDarkTheme}
-          userRole={userRole}
-          setUserRole={setUserRole}
-        />
+        <Header isDarkTheme={isDarkTheme} setIsDarkTheme={setIsDarkTheme} />
 
         {/* Greeting Section */}
         <Greeting />
@@ -61,12 +54,7 @@ const Dashboard = () => {
             <SpendingBreakdownChart
               spendingBreakdownData={spendingBreakdownData}
             />
-            <RecentActivities
-              activities={activities}
-              getStatusColor={getStatusColor}
-              getStatusIcon={getStatusIcon}
-              userRole={userRole}
-            />
+            <RecentActivities />
           </div>
         </div>
       </div>
