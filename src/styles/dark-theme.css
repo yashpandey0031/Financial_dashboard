@@ -15,16 +15,19 @@
 }
 
 .dark-theme .nav-item {
-  color: #999;
+  color: #f3f3f3;
 }
 
-.dark-theme .nav-item:hover,
-.dark-theme .nav-item.active {
+.dark-theme .nav-item:hover {
   color: #ff6b6b;
 }
 
+.dark-theme .nav-item.active {
+  color: #fff;
+}
+
 .dark-theme .logout-btn {
-  color: #999;
+  color: #f3f3f3;
 }
 
 .dark-theme .logout-btn:hover {

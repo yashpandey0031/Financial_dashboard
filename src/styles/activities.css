@@ -348,6 +348,12 @@
   margin-top: 16px;
   overflow-x: auto;
   overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.activities-table::-webkit-scrollbar {
+  display: none;
 }
 
 .table-header {
@@ -385,7 +391,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  word-break: break-word;
+  word-break: normal;
 }
 
 .activity-icon {

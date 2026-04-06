@@ -24,7 +24,7 @@ const Header = ({ isDarkTheme, setIsDarkTheme }) => {
   return (
     <header className="header">
       <div className="header-left">
-        <h1 className="brand">Finvery</h1>
+        <h1 className="brand">Zorvyn</h1>
       </div>
       <nav className="header-nav">
         <a href="#" className="nav-link active">
@@ -97,10 +97,10 @@ const Header = ({ isDarkTheme, setIsDarkTheme }) => {
           <Settings size={20} />
         </button>
         <div className="user-profile">
-          <div className="avatar">SR</div>
+          <div className="avatar">YP</div>
           <div className="user-info">
-            <p className="user-name">Sajibur Rahman</p>
-            <p className="user-email">@sajibur_rahman</p>
+            <p className="user-name">Yash Pandey</p>
+            <p className="user-email">@yash_pandey</p>
           </div>
           <ChevronDown size={16} />
         </div>
