@@ -6,7 +6,7 @@
   flex-direction: column;
   overflow: hidden;
   width: 100%;
-  height: 425px;
+  min-height: 380px;
 }
 
 .chart-card .card-header {
@@ -16,19 +16,19 @@
 
 .spending-breakdown-card {
   width: 100%;
-  max-width: 500px;
-  min-height: 555px;
+  max-width: none;
+  min-height: 460px;
   margin-bottom: 0 !important;
   padding: 20px !important;
   display: flex;
   flex-direction: column;
-  justify-self: start;
+  justify-self: stretch;
   overflow: hidden;
 }
 
 .chart-container-narrow {
   width: 100%;
-  height: 420px;
+  height: 340px;
   max-width: none;
   margin: 0 auto;
   overflow: hidden;

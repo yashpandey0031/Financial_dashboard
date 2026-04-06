@@ -1,4 +1,16 @@
 /* ========== RESPONSIVE ========== */
+@media (max-width: 1700px) {
+  .dashboard-grid {
+    grid-template-columns: 360px 1fr;
+    gap: 24px;
+  }
+
+  .right-column {
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+}
+
 @media (max-width: 1400px) {
   .dashboard-grid {
     grid-template-columns: 1fr;
@@ -7,6 +19,11 @@
   .left-column,
   .right-column {
     width: 100%;
+  }
+
+  .right-column {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
   }
 
   .metrics-row {
@@ -88,5 +105,9 @@
 
   .cards-container {
     max-width: 100%;
+  }
+
+  .right-column {
+    grid-template-columns: 1fr;
   }
 }
