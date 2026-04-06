@@ -16,7 +16,7 @@
 /* ========== DASHBOARD GRID ========== */
 .dashboard-grid {
   display: grid;
-  grid-template-columns: 350px 1fr;
+  grid-template-columns: 380px 1fr;
   gap: 30px;
 }
 
@@ -29,7 +29,7 @@
 /* ========== RIGHT COLUMN ========== */
 .right-column {
   display: grid;
-  grid-template-columns: 360px 1fr;
+  grid-template-columns: 380px 1fr;
   grid-template-rows: auto 1fr;
   gap: 30px;
 }

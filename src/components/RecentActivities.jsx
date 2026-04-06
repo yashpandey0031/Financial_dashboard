@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import {
   Filter,
   ChevronDown,
@@ -27,6 +27,7 @@ const RecentActivities = () => {
 
   const [showFilterMenu, setShowFilterMenu] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
+  const filterContainerRef = useRef(null);
   const [newTransaction, setNewTransaction] = useState({
     activity: "",
     amount: "",
@@ -40,6 +41,20 @@ const RecentActivities = () => {
   });
 
   const categories = [...new Set(activities.map((a) => a.category))];
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        filterContainerRef.current &&
+        !filterContainerRef.current.contains(event.target)
+      ) {
+        setShowFilterMenu(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const renderActivityIcon = (activity) => {
     const iconProps = { size: 16, strokeWidth: 2.2 };
@@ -117,7 +132,7 @@ const RecentActivities = () => {
               }
             />
           </div>
-          <div className="filter-container">
+          <div className="filter-container" ref={filterContainerRef}>
             <button
               className="filter-btn"
               onClick={() => setShowFilterMenu(!showFilterMenu)}

@@ -1,10 +1,25 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Search, Bell, Settings, ChevronDown, Moon, Sun } from "lucide-react";
 import { AppContext } from "../context/AppContext";
 
 const Header = ({ isDarkTheme, setIsDarkTheme }) => {
   const { userRole, setUserRole } = useContext(AppContext);
   const [showRoleMenu, setShowRoleMenu] = useState(false);
+  const roleSelectorRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        roleSelectorRef.current &&
+        !roleSelectorRef.current.contains(event.target)
+      ) {
+        setShowRoleMenu(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <header className="header">
@@ -32,7 +47,7 @@ const Header = ({ isDarkTheme, setIsDarkTheme }) => {
         </a>
       </nav>
       <div className="header-right">
-        <div className="role-selector">
+        <div className="role-selector" ref={roleSelectorRef}>
           <button
             type="button"
             className="role-dropdown"

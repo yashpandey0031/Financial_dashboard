@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  PieChart,
-  Pie,
-  Cell,
-  Legend,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 
 const SpendingBreakdownChart = ({ spendingBreakdownData }) => {
   const COLORS = ["#ff6b6b", "#ff9500", "#00c851", "#4a90e2", "#9013fe"];
@@ -45,7 +38,6 @@ const SpendingBreakdownChart = ({ spendingBreakdownData }) => {
                 borderRadius: "8px",
               }}
             />
-            <Legend verticalAlign="bottom" height={20} />
           </PieChart>
         </ResponsiveContainer>
       </div>
