@@ -1,0 +1,15 @@
+/* ========== IMPORT ALL MODULAR CSS FILES ========== */
+@import "./styles/global.css";
+@import "./styles/layout.css";
+@import "./styles/sidebar.css";
+@import "./styles/header.css";
+@import "./styles/greeting.css";
+@import "./styles/cards.css";
+@import "./styles/balance-card.css";
+@import "./styles/spending-card.css";
+@import "./styles/credit-cards.css";
+@import "./styles/metrics.css";
+@import "./styles/chart.css";
+@import "./styles/activities.css";
+@import "./styles/dark-theme.css";
+@import "./styles/responsive.css";

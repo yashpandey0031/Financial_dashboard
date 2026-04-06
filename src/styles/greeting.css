@@ -1,0 +1,17 @@
+/* ========== GREETING ========== */
+.greeting {
+  margin-bottom: 30px;
+}
+
+.greeting h2 {
+  margin: 0 0 8px 0;
+  font-size: 32px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.greeting p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+}

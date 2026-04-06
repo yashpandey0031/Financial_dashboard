@@ -1,0 +1,59 @@
+/* ========== CHART CARDS ========== */
+.chart-card {
+  margin-bottom: 0 !important;
+  padding: 20px !important;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  width: 100%;
+}
+
+.chart-card .card-header {
+  margin-bottom: 24px;
+  flex-shrink: 0;
+}
+
+.spending-breakdown-card {
+  width: 340px;
+  margin-bottom: 0 !important;
+  padding: 20px !important;
+  overflow: hidden;
+}
+
+.chart-container-narrow {
+  width: 100%;
+  max-width: 340px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+/* ========== PROFIT CARD ========== */
+.profit-card {
+  margin-bottom: 0 !important;
+  padding: 20px !important;
+  display: flex;
+  flex-direction: column;
+}
+
+.profit-card .card-header {
+  margin-bottom: 24px;
+}
+
+.chart-legend {
+  display: flex;
+  gap: 16px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #666;
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}

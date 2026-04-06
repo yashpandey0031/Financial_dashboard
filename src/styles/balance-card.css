@@ -1,0 +1,81 @@
+/* ========== BALANCE CARD ========== */
+.balance-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.balance-amount {
+  font-size: 36px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 10px 0;
+}
+
+.balance-subtitle {
+  color: #999;
+  font-size: 12px;
+  margin: 5px 0 20px 0;
+}
+
+.card-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+/* ========== WALLETS ========== */
+.wallets-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.wallet-item {
+  background: #f5f5f5;
+  padding: 16px;
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.wallet-item:hover {
+  border-color: #ff9500;
+}
+
+.wallet-item.active {
+  background: #fff3e0;
+  border-color: #ff9500;
+}
+
+.wallet-flag {
+  font-size: 24px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.wallet-name {
+  display: block;
+  font-weight: 600;
+  color: #1a1a1a;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.wallet-amount {
+  display: block;
+  color: #666;
+  font-size: 12px;
+}
+
+.wallets-section {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.wallets-section .card-title {
+  margin-bottom: 16px;
+}
