@@ -1,11 +1,25 @@
 import React from "react";
-import { MoreVertical, TrendingUp } from "lucide-react";
+import {
+  MoreVertical,
+  TrendingUp,
+  TrendingDown,
+  Sparkles,
+  Bell,
+} from "lucide-react";
 
 const MetricsCard = () => {
   return (
     <div className="card metrics-card">
       <div className="card-header">
         <span>Stats</span>
+        <div className="metrics-fun-actions">
+          <button className="metrics-fun-btn" title="Highlights">
+            <Sparkles size={18} />
+          </button>
+          <button className="metrics-fun-btn" title="Alerts">
+            <Bell size={18} />
+          </button>
+        </div>
       </div>
       <div className="metrics-grid">
         <div className="metric-item">
@@ -56,6 +70,17 @@ const MetricsCard = () => {
           <p className="metric-change">
             <TrendingUp size={14} /> 3.4% this month
           </p>
+        </div>
+
+        <div className="stats-indicators">
+          <div className="trend-indicator up" title="Growth trend">
+            <TrendingUp size={25} />
+            <span>+8.2%</span>
+          </div>
+          <div className="trend-indicator down" title="Drop trend">
+            <TrendingDown size={25} />
+            <span>-2.4%</span>
+          </div>
         </div>
       </div>
     </div>

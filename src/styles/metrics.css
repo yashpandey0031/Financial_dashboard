@@ -9,10 +9,74 @@
   justify-self: stretch;
 }
 
+.metrics-card .card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
 .metrics-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
+}
+
+.stats-indicators {
+  grid-column: 1 / -1;
+  margin-top: 8px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.trend-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 800;
+  border: 1px solid transparent;
+}
+
+.trend-indicator.up {
+  color: #00c851;
+  background: rgba(0, 200, 81, 0.12);
+  border-color: rgba(0, 200, 81, 0.35);
+}
+
+.trend-indicator.down {
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.12);
+  border-color: rgba(255, 107, 107, 0.35);
+}
+
+.metrics-fun-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.metrics-fun-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid #e6e6e6;
+  background: #fff;
+  color: #666;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.metrics-fun-btn:hover {
+  color: #ff9500;
+  border-color: #ff9500;
+  background: #fff9f0;
 }
 
 .metric-item {
@@ -116,4 +180,26 @@
   color: #00c851;
   font-size: 12px;
   margin-top: 8px;
+}
+
+.dark-theme .metrics-fun-btn {
+  background: #2a2a2a;
+  border-color: #3a3a3a;
+  color: #bdbdbd;
+}
+
+.dark-theme .metrics-fun-btn:hover {
+  background: #333;
+  border-color: #ff9500;
+  color: #ffb14d;
+}
+
+.dark-theme .trend-indicator.up {
+  background: rgba(0, 200, 81, 0.18);
+  border-color: rgba(0, 200, 81, 0.45);
+}
+
+.dark-theme .trend-indicator.down {
+  background: rgba(255, 107, 107, 0.18);
+  border-color: rgba(255, 107, 107, 0.45);
 }
