@@ -3,6 +3,10 @@
   margin-bottom: 16px;
 }
 
+.spending-item:last-of-type {
+  margin-bottom: 8px;
+}
+
 .spending-info {
   display: flex;
   justify-content: space-between;

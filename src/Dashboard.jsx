@@ -36,25 +36,37 @@ const Dashboard = () => {
 
         {/* Main Grid */}
         <div className="dashboard-grid">
-          {/* Left Column */}
-          <div className="left-column">
-            <BalanceCard
-              showBalance={showBalance}
-              setShowBalance={setShowBalance}
-              wallets={wallets}
-            />
-            <SpendingLimitCard />
-            <MyCardsCard />
+          {/* div one */}
+          <div className="div1-panel">
+            <div className="panel-slot">
+              <BalanceCard
+                showBalance={showBalance}
+                setShowBalance={setShowBalance}
+                wallets={wallets}
+              />
+            </div>
+            <div className="panel-slot">
+              <MetricsCard />
+            </div>
+            <div className="panel-slot">
+              <SpendingLimitCard />
+            </div>
+            <div className="panel-slot">
+              <SpendingBreakdownChart
+                spendingBreakdownData={spendingBreakdownData}
+              />
+            </div>
           </div>
 
-          {/* Right Column */}
-          <div className="right-column">
-            <MetricsCard />
+          {/* div two */}
+          <div className="div2-panel">
             <BalanceTrendChart balanceTrendData={balanceTrendData} />
-            <SpendingBreakdownChart
-              spendingBreakdownData={spendingBreakdownData}
-            />
             <RecentActivities />
+          </div>
+
+          {/* div three */}
+          <div className="div3-panel">
+            <MyCardsCard />
           </div>
         </div>
       </div>

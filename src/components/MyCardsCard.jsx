@@ -29,6 +29,18 @@ const MyCardsCard = () => {
             <span>029</span>
           </div>
         </div>
+        <div className="credit-card dark">
+          <div className="card-chip">
+            <div></div>
+            <div></div>
+          </div>
+          <p className="card-name">Travel</p>
+          <div className="card-number">•••• •••• •••• 7814</div>
+          <div className="card-footer">
+            <span>09/27</span>
+            <span>413</span>
+          </div>
+        </div>
       </div>
     </div>
   );
