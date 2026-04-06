@@ -16,6 +16,8 @@ import {
   wallets,
 } from "./utils/dashboardData";
 
+// Developed by Yash Pandey (https://github.com/yashpandey0031)
+
 const Dashboard = () => {
   const [showBalance, setShowBalance] = useState(true);
   const [isDarkTheme, setIsDarkTheme] = useState(false);
@@ -69,6 +71,17 @@ const Dashboard = () => {
             <MyCardsCard />
           </div>
         </div>
+
+        <footer className="project-credit">
+          Developed by{" "}
+          <a
+            href="https://github.com/yashpandey0031"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Yash Pandey
+          </a>
+        </footer>
       </div>
     </div>
   );

@@ -55,3 +55,20 @@
 .div3-panel .card {
   margin-bottom: 0;
 }
+
+.project-credit {
+  margin-top: 22px;
+  text-align: center;
+  font-size: 13px;
+  color: #666;
+}
+
+.project-credit a {
+  color: #ff6b6b;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.project-credit a:hover {
+  text-decoration: underline;
+}

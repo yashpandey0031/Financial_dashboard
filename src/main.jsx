@@ -4,6 +4,8 @@ import App from "./App.jsx";
 import "./index.css";
 import { AppProvider } from "./context/AppContext.jsx";
 
+// Developed by Yash Pandey (https://github.com/yashpandey0031)
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AppProvider>
