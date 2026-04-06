@@ -3,7 +3,7 @@
   background: white;
   border-radius: 16px;
   padding: 24px;
-  width: 420px;
+  width: 380px;
 }
 
 .balance-amount {
@@ -11,7 +11,6 @@
   font-weight: 700;
   color: #1a1a1a;
   margin: 10px 0;
-  
 }
 
 .balance-subtitle {
