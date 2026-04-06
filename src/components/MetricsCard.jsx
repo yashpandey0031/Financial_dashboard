@@ -4,6 +4,9 @@ import { MoreVertical, TrendingUp } from "lucide-react";
 const MetricsCard = () => {
   return (
     <div className="card metrics-card">
+      <div className="card-header">
+        <span>Stats</span>
+      </div>
       <div className="metrics-grid">
         <div className="metric-item">
           <div className="metric-header">

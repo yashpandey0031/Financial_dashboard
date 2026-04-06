@@ -10,17 +10,17 @@ const SpendingBreakdownChart = ({ spendingBreakdownData }) => {
         <span>Spending Breakdown</span>
       </div>
       <div className="chart-container-narrow">
-        <ResponsiveContainer width="100%" height={280}>
+        <ResponsiveContainer width="100%" height={340}>
           <PieChart>
             <Pie
               data={spendingBreakdownData}
               cx="50%"
-              cy="50%"
+              cy="46%"
               labelLine={false}
               label={({ name, percent }) =>
                 `${name} ${(percent * 100).toFixed(0)}%`
               }
-              outerRadius={70}
+              outerRadius={92}
               fill="#8884d8"
               dataKey="value"
             >

@@ -4,6 +4,9 @@
   padding: 18px;
   flex: 0 0 auto;
   width: 100%;
+  max-width: 490px;
+
+  justify-self: start;
 }
 
 .metrics-grid {
