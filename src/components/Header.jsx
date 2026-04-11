@@ -24,7 +24,7 @@ const Header = ({ isDarkTheme, setIsDarkTheme }) => {
   return (
     <header className="header">
       <div className="header-left">
-        <h1 className="brand">Zorvyn</h1>
+        <h1 className="brand">Financial Dashboard</h1>
       </div>
       <nav className="header-nav">
         <a href="#" className="nav-link active">
