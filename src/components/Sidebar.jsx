@@ -12,7 +12,7 @@ const Sidebar = () => {
   return (
     <aside className="sidebar">
       <div className="sidebar-logo">
-        <div className="logo-icon">Z</div>
+        <div className="logo-icon">FD</div>
       </div>
       <nav className="sidebar-nav">
         <a href="#" className="nav-item active">
